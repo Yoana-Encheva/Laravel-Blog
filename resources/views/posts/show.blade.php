@@ -54,7 +54,7 @@
         alt="A photograph of sliced kiwifruit on a while plate" class="curve">
     <h1>{{$post->title}}</h1>
     <h4>{{\Carbon\Carbon::parse($post->created_at)->format('Y-m-d')}}</h4>
-    <p>{{$post->body}}</p>
+    <h4>{{$post->body}}</h4>
 </div>
 
 <hr />
@@ -63,7 +63,10 @@
 
 @foreach($comments as $comment)
 <div class="display-comment">
-    <p>{{ $comment->name }} // {{ $comment->email }} says:</p>
+    <strong>
+        <p>{{ App\Models\User::findOrFail($comment->user_id)->name }} says:</p>
+    </strong>
+
     <p>{{ $comment->body }}</p>
 </div>
 @endforeach
@@ -75,8 +78,6 @@
     @csrf
     <div class=" form-group">
         <input type="text" name="body" placeholder="Comment" class="form-control" />
-        <input type="text" name="name" placeholder="Username" class="form-control" />
-        <input type="text" name="email" placeholder="Email" class="form-control" />
         <input type="hidden" name="post_id" value="{{ $post->id }}" />
     </div>
     <div class="form-group">

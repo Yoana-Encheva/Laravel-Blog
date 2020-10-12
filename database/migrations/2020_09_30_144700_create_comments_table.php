@@ -16,8 +16,7 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
 
             $table->increments('id');
-            $table->string('name');
-            $table->string('email');
+            $table->foreignId('user_id');
             $table->text('body');
             $table->boolean('approved');
             $table->integer('post_id')->unsigned();
@@ -27,6 +26,12 @@ class CreateCommentsTable extends Migration
                 ->references('id')
                 ->on('posts')
                 ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
         });
     }
 
